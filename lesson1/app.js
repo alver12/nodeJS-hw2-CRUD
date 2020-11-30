@@ -6,7 +6,7 @@ const fold1800 = './1800';
 
 fs.readdir (fold2000, function (err, allFold2000)  {
        if (err) throw err;
-
+       
        fs.readdir (fold1800, function (err, allFold1800)  {
               if (err) throw err;
               moveFiles(allFold2000, fold2000, fold1800);
