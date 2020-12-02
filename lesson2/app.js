@@ -18,22 +18,31 @@ app.engine('.hbs', exprsHbs({
 
 app.set('views', path.join(process.cwd(), 'views')); 
 
-let rawdata = fs.readFileSync('./data/users.json');
+const dataUser = './data/users.json';
+
+if (!fs.existsSync(dataUser)) {
+    fs.writeFileSync(dataUser, '[]');
+}; 
+
+let rawdata = fs.readFileSync(dataUser);
 let users = JSON.parse(rawdata);
 console.log(users);
 
 app.get('/user', (req, res) => {
     res.render ('users', {users});
-})
+});
+
+const { userRouter } = require('./routes');
+
+app.use('/api/user', userRouter);
 
 app.get('/registration', (req, res) => {
     res.render ('registration');
-    
-})
+});
 
 app.get('/login', (req, res) => {
     res.render ('log');
-})
+});
 
 app.get('/error', (req, res) => {
     const code = req.query.code;
@@ -54,7 +63,7 @@ app.post('/registration', (req, res) => {
     
     users.push({email, nick, password});
     res.redirect('/user')
-})
+});
 
 app.post('/login', (req, res) => {
     const {email, password} = req.body;
@@ -65,7 +74,7 @@ app.post('/login', (req, res) => {
         return res.redirect('/error?code=userNotExist');
     }   
     res.redirect('/user')
-})
+});
 
 app.listen(5000, ()=>{
     console.log('App listen 5000')

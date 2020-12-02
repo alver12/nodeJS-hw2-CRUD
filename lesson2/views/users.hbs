@@ -10,9 +10,14 @@
     <button type="submit">LOGOUT</button>
     </form>
 
-    {{#each users}}
+    {{#each users}}  
+        ***************************
+        <br>
         <div> {{this.email}} </div>
         <div style="background-color:blueviolet">{{this.nick}}</div>
+        <button type="submit">UPDATE</button>
+        <br>
+        ***************************
     {{/each}}
 </body>
 </html>
