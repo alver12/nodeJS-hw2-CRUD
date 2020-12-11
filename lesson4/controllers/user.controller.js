@@ -11,13 +11,40 @@ module.exports = {
         }
     },
 
-    getUsers: (req, res) =>{
+    getUsers: async (req, res) =>{
+        try{
+            const users = await userService.findUsers();
 
-            const users = userService.findUsers();
+            console.log (users);
+
+            users.forEach((user) => {
+                console.log(user);
+            });
+
             res.json(users);
+        } catch (e) {
+            res.status(400).json(e.message);
+        } 
+            
     },
 
-    getUserById: (req, res) => {
+    getUserById: async (req, res) => {
+        try{
+            const { user_id } = req.params;
+        
+            if (user_id < 0){
+                throw new Error('User ID must be greater than 0');
+            }
+            const user = await userService.findUserById(user_id);
+
+            console.log(user);
+            res.json(user);
+        }   catch (e) {
+            res.status(400).json(e.message);
+        }
+    },
+
+    deleteUsers: (req, res) => {
         try{
             const { user_id } = req.params;
         
@@ -29,26 +56,9 @@ module.exports = {
             if (!user_id){
                 throw new Error('User not found');
             }
-            res.json(user);
-        }   catch (e) {
-            res.status(400).json(e.message);
-        }
-    },
 
-    deleteUsers: (req, res) => {
-        try{
-            const { user_id } = req.params;
-console.log('user_id = ', user_id, req.params);        
-            if (user_id < 0){
-                throw new Error('User ID must be greater than 0');
-            }
-            const user = userService.findUserById(user_id);
-            
-            if (!user_id){
-                throw new Error('User not found');
-            }
-
-            userService.deleteUserById(user_id);
+            user.filter((user_id) => user_id.email !== email);
+            return (users);
             res.json('User deleted');
 
         }   catch (e) {
