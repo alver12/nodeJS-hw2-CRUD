@@ -17,7 +17,16 @@ const { userRouter } = require('./routes');
 const { carRouter } = require('./routes');
 
 app.use('/api/user', userRouter);
-app.use('/api/car', carRouter)
+app.use('/api/car', carRouter);
+
+app.use('*', (err, req, res, next) => {
+    res
+        .status(err.code)
+        .json({
+        message: err.message,
+        ok: false
+    });
+});
 
 
 

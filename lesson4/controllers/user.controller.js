@@ -1,4 +1,6 @@
 const userService = require('../services/user.service');
+const { ErrorHandler, errors } = require('../error');
+const { nextTick } = require('process');
 
 module.exports = {
     createUser: (req, res) =>{
@@ -11,7 +13,7 @@ module.exports = {
         }
     },
 
-    getUsers: async (req, res) =>{
+    getUsers: async (req, res, next) =>{
         try{
             const users = await userService.findUsers();
 
@@ -23,28 +25,27 @@ module.exports = {
 
             res.json(users);
         } catch (e) {
-            res.status(400).json(e.message);
+            next(e);
         } 
             
     },
 
-    getUserById: async (req, res) => {
+    getUserById: async (req, res, next) => {
         try{
             const { user_id } = req.params;
         
             if (user_id < 0){
-                throw new Error('User ID must be greater than 0');
+                throw new ErrorHandler(errors.NOT_VALID_ID.message, errors.NOT_VALID_ID.code);
             }
             const user = await userService.findUserById(user_id);
 
-            console.log(user);
             res.json(user);
         }   catch (e) {
-            res.status(400).json(e.message);
+            next(e);
         }
     },
 
-    deleteUsers: (req, res) => {
+    deleteUsers: (req, res, next) => {
         try{
             const { user_id } = req.params;
         
@@ -62,7 +63,7 @@ module.exports = {
             res.json('User deleted');
 
         }   catch (e) {
-            res.status(400).json(e.message);
+            next(e);
         }
     }
 };
