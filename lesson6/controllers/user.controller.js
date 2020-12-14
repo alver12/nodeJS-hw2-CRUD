@@ -1,6 +1,5 @@
 const userService = require('../services/user.service');
 const { ErrorHandler, errors } = require('../error');
-const { nextTick } = require('process');
 
 module.exports = {
     createUser: (req, res) =>{
@@ -41,25 +40,25 @@ module.exports = {
 
             res.json(user);
         }   catch (e) {
+
             next(e);
         }
     },
 
-    deleteUsers: (req, res, next) => {
-        try{
+    deleteUsers: async (req, res, next) => {
+        try {
             const { user_id } = req.params;
-        
+        console.log('user_id = ', user_id);
             if (user_id < 0){
-                throw new Error('User ID must be greater than 0');
+                throw new ErrorHandler(errors.NOT_VALID_ID.message, errors.NOT_VALID_ID.code);
             }
-            const user = userService.findUserById(user_id);
-            
-            if (!user_id){
-                throw new Error('User not found');
+            const user = await userService.findUserById(user_id);     
+     
+            if (!user){
+                throw new ErrorHandler(errors.NOT_FOUND.message, errors.NOT_FOUND.code);
             }
 
-            user.filter((user_id) => user_id.email !== email);
-            return (users);
+            await user.destroy();
             res.json('User deleted');
 
         }   catch (e) {

@@ -20,8 +20,9 @@ app.use('/api/user', userRouter);
 app.use('/api/car', carRouter);
 
 app.use('*', (err, req, res, next) => {
+    const statusCode = err.code ? err.code : 400;
     res
-        .status(err.code)
+        .status(statusCode)
         .json({
         message: err.message,
         ok: false

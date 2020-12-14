@@ -3,5 +3,6 @@ module.exports = {
     NO_CONTENT: 204,
     BAD_REQUEST: 400,
     UNAUTHRIZED: 401,
-    FORBIDDED: 403
+    FORBIDDED: 403,
+    NOT_FOUND: 404
 };
