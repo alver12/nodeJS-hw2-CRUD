@@ -45,21 +45,20 @@ module.exports = {
         }
     },
 
-    deleteCars: (req, res, next) => {
-        try{
+    deleteCars: async (req, res, next) => {
+        try {
             const { car_id } = req.params;
-        
+
             if (car_id < 0){
-                throw new ErrorHandler('Car ID must be greater than 0');
+                throw new ErrorHandler(errors.NOT_VALID_ID.message, errors.NOT_VALID_ID.code);
             }
-            const car = carService.findCarById(car_id);
-            
-            if (!car_id){
-                throw new ErrorHandler('Car not found');
+            const car = await carService.findCarById(car_id);     
+     
+            if (!car){
+                throw new ErrorHandler(errors.NOT_FOUND.message, errors.NOT_FOUND.code);
             }
 
-            car.filter((car_id) => car_id.model !== model);
-            return (cars);
+            await car.destroy();
             res.json('Car deleted');
 
         }   catch (e) {
