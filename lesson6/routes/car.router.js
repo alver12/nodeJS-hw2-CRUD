@@ -11,6 +11,8 @@ carRouter.get('/', carController.getCars);
 
 carRouter.get('/:car_id', carController.getCarById);
 
+carRouter.put('/:car_id', carController.updateCar);
+
 carRouter.delete('/:car_id', carController.deleteCars);
 
 module.exports = carRouter;

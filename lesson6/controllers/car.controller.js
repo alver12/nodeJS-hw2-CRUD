@@ -45,6 +45,29 @@ module.exports = {
         }
     },
 
+    updateCar: async (req, res, next) => {
+        try{
+            const { car_id } = req.params;
+        
+            if (car_id < 0){
+                throw new ErrorHandler(errors.NOT_VALID_ID.message, errors.NOT_VALID_ID.code);
+            }
+            const car = await carService.findCarById(car_id);
+
+            car.model = req.body.model;
+
+            car.price = req.body.price;
+
+            car.year = req.body.year;
+
+            await car.save();
+            
+            res.json('Car updated');
+        }   catch (e) {
+            next(e);
+        }
+    },
+
     deleteCars: async (req, res, next) => {
         try {
             const { car_id } = req.params;

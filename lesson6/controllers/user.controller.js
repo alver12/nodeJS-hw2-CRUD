@@ -45,6 +45,27 @@ module.exports = {
         }
     },
 
+    updateUser: async (req, res, next) => {
+        try{
+            const { user_id } = req.params;
+        
+            if (user_id < 0){
+                throw new ErrorHandler(errors.NOT_VALID_ID.message, errors.NOT_VALID_ID.code);
+            }
+            const user = await userService.findUserById(user_id);
+
+            user.name = req.body.name;
+
+            user.password = req.body.password;
+
+            await user.save();
+
+            res.json('User updated');
+        }   catch (e) {
+            next(e);
+        }
+    },
+
     deleteUsers: async (req, res, next) => {
         try {
             const { user_id } = req.params;

@@ -2,6 +2,9 @@ const { required } = require("joi");
 
 module.exports = {
     userValidator: require('./user'),
-    carValidator: require('./car')
+    updateValidator: require('./user'),
+    carValidator: require('./car'),
+    updateCarValidator: require('./car')
+
 
 };
