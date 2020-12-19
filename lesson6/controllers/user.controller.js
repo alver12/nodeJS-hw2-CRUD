@@ -1,10 +1,15 @@
 const userService = require('../services/user.service');
 const { ErrorHandler, errors } = require('../error');
+const { hash } = require('../helpers/password.helper');
 
 module.exports = {
-    createUser: (req, res) =>{
+    createUser: async (req, res) =>{
         try {
-            userService.insertUser(req.body);
+            const password = await hash(req.body.password);
+
+            Object.assign(req.body, {password});
+
+            await userService.insertUser(req.body);
              
             res.status(201).json('User created');
         }   catch (e) {
