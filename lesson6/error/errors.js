@@ -1,4 +1,4 @@
-const { BAD_REQUEST, NOT_FOUND } = require('../configs/error-codes');
+const { BAD_REQUEST, NOT_FOUND, UNAUTHRIZED } = require('../configs/error-codes');
 
 module.exports = {
     NOT_VALID_ID: {
@@ -19,5 +19,11 @@ module.exports = {
     WRONG_EMAIL_OR_PASSWORD: {
         message: 'Wrong email or password',
         code: BAD_REQUEST
+    },
+
+    //Unauthorized
+    NOT_VALID_TOKEN: {
+        message: 'Not valid token',
+        code: UNAUTHRIZED
     }
 };

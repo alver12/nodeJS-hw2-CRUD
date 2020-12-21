@@ -13,8 +13,11 @@ app.use(express.json());
 
 app.use(express.static(path.join(process.cwd(), 'views')))
  
-const { userRouter } = require('./routes');
+const { userRouter, authRouter } = require('./routes');
+
 const { carRouter } = require('./routes');
+
+app.use('/api/auth', authRouter);
 
 app.use('/api/user', userRouter);
 app.use('/api/car', carRouter);
@@ -22,7 +25,7 @@ app.use('/api/car', carRouter);
 app.use('*', (err, req, res, next) => {
     const statusCode = err.code ? err.code : 400;
     res
-        .status(statusCode)
+        .status(statusCode || 500)
         .json({
         message: err.message,
         ok: false

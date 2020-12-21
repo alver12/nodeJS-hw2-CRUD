@@ -33,6 +33,16 @@ module.exports = {
             include: [
                { model: db.getModel('Car'), required: true, as: 'Car'}
             ],
-          });
+        });
+    }, 
+
+    findUserByParams: async (findObj) => {
+        const userModel = db.getModel('User'); 
+
+        const user = await userModel.findOne({
+            where: findObj
+        });
+
+        return user && user.dataValues;
     } 
 };
