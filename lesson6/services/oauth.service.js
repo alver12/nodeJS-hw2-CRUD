@@ -5,7 +5,7 @@ module.exports = {
     
     createTokenPair: (tokenPair) => {
         const OAuthModel = db.getModel ('O_Auth');
-
+        
         return OAuthModel.create(tokenPair);
     },
 
