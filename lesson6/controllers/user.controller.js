@@ -1,3 +1,7 @@
+const fs = require('fs-extra').promises;
+const path = require('path');
+const uuid = require('uuid').v1();
+
 const userService = require('../services/user.service');
 const { ErrorHandler, errors } = require('../error');
 const { hash } = require('../helpers/password.helper');
@@ -5,11 +9,28 @@ const { hash } = require('../helpers/password.helper');
 module.exports = {
     createUser: async (req, res) =>{
         try {
-            const password = await hash(req.body.password);
+            const { 
+                avatar, 
+                body: { password, email, name } 
+            } = req;
+            const hashedPassword = await hash(password);
 
             Object.assign(req.body, {password});
 
-            await userService.insertUser(req.body);
+            const createdUser = await userService.insertUser(req.body);
+
+            if (avatar) {
+                const pathWithoutPublic = path.join('user', `${createUser.id}`, 'photos');
+                const photoDir = path.join(process.cwd(), 'public', pathWithoutPublic);
+                const fileExtension = avatar.name.split('.').pop();
+                const photoName = `${uuid}.${fileExtension}`;
+                const finalPhotoPath = path.join(pathWithoutPublic, photoName);
+
+                await fs.mkdir(photoDir, {recursive: true});
+                await avatar.mv(path.join(photoDir, photoName));
+
+                await userService.updateUserById(createdUser.id, {avatar: finalPhotoPath});
+            }
              
             res.status(201).json('User created');
         }   catch (e) {

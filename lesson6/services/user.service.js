@@ -25,6 +25,17 @@ module.exports = {
         return userModel.create(user);
 
     },
+
+    updateUserById: (id, user) =>  {
+        const userModel = db.getModel ('User');
+
+        return userModel.update(user, {
+            where: { id },
+            returning: true,
+            plain: true 
+        });
+
+    },
      
     findUserById: (userId) => {
         const userModel = db.getModel('User'); 

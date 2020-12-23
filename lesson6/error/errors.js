@@ -1,8 +1,10 @@
 const { BAD_REQUEST, NOT_FOUND, UNAUTHRIZED } = require('../configs/error-codes');
 
 module.exports = {
+
+    // BAD_REQUEST
     NOT_VALID_ID: {
-        message: 'Must be greater than 0',
+          message: 'Must be greater than 0',
         code: BAD_REQUEST
     },
 
@@ -11,19 +13,34 @@ module.exports = {
         code: BAD_REQUEST
     },
 
-    NOT_FOUND: {
-        message: 'Item not found',
-        code: NOT_FOUND
-    },
-
     WRONG_EMAIL_OR_PASSWORD: {
         message: 'Wrong email or password',
         code: BAD_REQUEST
     },
 
+    TOO_BIG_FILE: {
+        message: 'Too big file',
+        code: BAD_REQUEST
+    },
+
+    JUST_ONE_PHOTO: {
+        message: 'You can uppload just one photo for avatar',
+        code: BAD_REQUEST
+    },
+
+    WRONG_FILE_EXTENTION: {
+        message: 'wrong file extention',
+        code: BAD_REQUEST
+    },
     //Unauthorized
     NOT_VALID_TOKEN: {
         message: 'Not valid token',
         code: UNAUTHRIZED
-    }
+    },
+
+    // NOT_FOUND
+    NOT_FOUND: {
+        message: 'Item not found',
+        code: NOT_FOUND
+    },
 };

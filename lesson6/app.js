@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const path = require('path');
 const db = require('./dataBase').getInstance();
 
@@ -8,10 +9,11 @@ const app = express();
 
 db.setModels();
 
+app.use(fileUpload());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-app.use(express.static(path.join(process.cwd(), 'views')))
+app.use(express.static(path.join(process.cwd(), 'public')))
  
 const { userRouter, authRouter } = require('./routes');
 
