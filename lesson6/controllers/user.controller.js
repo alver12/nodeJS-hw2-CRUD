@@ -14,13 +14,17 @@ module.exports = {
                 body: { password, email, name } 
             } = req;
             const hashedPassword = await hash(password);
+            
+            console.log('*****');
+            console.log(req.avatar);
+            console.log('****');
 
-            Object.assign(req.body, {password});
+            Object.assign(req.body, {password: hashedPassword});
 
             const createdUser = await userService.insertUser(req.body);
 
             if (avatar) {
-                const pathWithoutPublic = path.join('user', `${createUser.id}`, 'photos');
+                const pathWithoutPublic = path.join('user', `${createdUser.id}`, 'photos');
                 const photoDir = path.join(process.cwd(), 'public', pathWithoutPublic);
                 const fileExtension = avatar.name.split('.').pop();
                 const photoName = `${uuid}.${fileExtension}`;
@@ -34,6 +38,8 @@ module.exports = {
              
             res.status(201).json('User created');
         }   catch (e) {
+            console.log(e);
+            
             res.json(e.message);
         }
     },
