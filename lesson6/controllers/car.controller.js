@@ -1,10 +1,52 @@
+const fs = require('fs-extra').promises;
+const path = require('path');
+const uuid = require('uuid').v1();
+
 const carService = require('../services/car.service');
 const { ErrorHandler, errors } = require('../error');
 
 module.exports = {
-    createCar: (req, res) =>{
+    createCar: async (req, res, next) =>{
         try {
-            carService.insertCar(req.body);
+            const {photos, docs} = req;
+            // const {carDocs} = req;
+
+            console.log('*Photos:*');
+            console.log(photos);
+            console.log('****');
+            console.log('*Docs:*');
+            console.log(docs);
+            console.log('****');
+
+            const createdFileCar = await carFileService.insertFileCar(req.body);
+            console.log('inseted Car: ', createdFileCar);
+            photos.forEach((photo) => {
+                console.log('photo: ', photo);
+            });
+            if (carPhoto) {
+                const pathWithoutPublic = path.join('cars_files', `${createdFileCar.id}`, 'photos');
+                const photoDir = path.join(process.cwd(), 'public', pathWithoutPublic);
+                const fileExtension = carPhoto.name.split('.').pop();
+                const photoName = `${uuid}.${fileExtension}`;
+                const finalPhotoPath = path.join(pathWithoutPublic, photoName);
+
+                await fs.mkdir(photoDir, {recursive: true});
+                await carPhoto.mv(path.join(photoDir, photoName));
+
+                await carFileService.updateFileCarById(createdFileCar.id, {carPhoto: finalPhotoPath});
+            }
+            if (carDocs) {
+                const pathWithoutPublic = path.join('cars_files', `${createdCar.id}`, 'docs');
+                const docDir = path.join(process.cwd(), 'public', pathWithoutPublic);
+                const fileExtension = carDocs.name.split('.').pop();
+                const docName = `${uuid}.${fileExtension}`;
+                const finalDocPath = path.join(pathWithoutPublic, docName);
+
+                await fs.mkdir(docDir, {recursive: true});
+                await carDocs.mv(path.join(docDir, docName));
+
+                await carService.updateFileCarById(createdFileCar.id, {carDocs: finalDocPath});
+            } 
              
             res.status(201).json('Car created');
         }   catch (e) {
