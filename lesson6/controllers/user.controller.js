@@ -15,9 +15,9 @@ module.exports = {
             } = req;
             const hashedPassword = await hash(password);
             
-            console.log('*****');
-            console.log(req.avatar);
-            console.log('****');
+            // console.log('*****');
+            // console.log(req.avatar);
+            // console.log('****');
 
             Object.assign(req.body, {password: hashedPassword});
 
@@ -101,7 +101,6 @@ module.exports = {
     deleteUsers: async (req, res, next) => {
         try {
             const { user_id } = req.params;
-        console.log('user_id = ', user_id);
             if (user_id < 0){
                 throw new ErrorHandler(errors.NOT_VALID_ID.message, errors.NOT_VALID_ID.code);
             }

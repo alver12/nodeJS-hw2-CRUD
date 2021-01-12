@@ -16,6 +16,16 @@ module.exports = {
         return userModel.create(car);
 
     },
+
+    updateCarById: (id, car) =>  {
+        const carModel = db.getModel ('Car');
+
+        return carModel.update(car, {
+            where: { id },
+            returning: true,
+            plain: true 
+        });
+    },    
      
     findCarById: (carId) => {
         const carModel = db.getModel('Car'); 

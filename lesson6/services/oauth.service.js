@@ -19,6 +19,28 @@ module.exports = {
                 where: findObject
             }]
         });
+    },
+
+    getRefreshToken: (refreshToken) => {
+        const OAuth = dataBase.getModel(O_Auth);
+        const User = dataBase.getModel(User);
+
+        return User.findOne({
+            include: {
+                model: OAuth,
+                where: { refreshToken }
+            }
+        });
+    },
+
+    deleteToken: (deleteToken) => {
+        const OAuth = dataBase.getModel(O_Auth);
+
+        return OAuth.destroy({
+            where: { access_token: deleteToken }
+        });
+ 
     }
+    
 
 };

@@ -17,6 +17,6 @@ userRouter.get('/:user_id', userController.getUserById);
 
 userRouter.put('/:user_id', userController.updateUser);
 
-userRouter.delete('/:user_id', authMiddleware.checkAccessToken, userController.deleteUsers);
+userRouter.delete('/:user_id', authMiddleware.checkAuthMiddleware.checkAccessToken, userController.deleteUsers);
 
 module.exports = userRouter;

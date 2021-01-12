@@ -1,11 +1,15 @@
 const { Router } = require('express');
 const { carController } = require('../controllers');
-const { carMiddleware } = require('../middlewares');
+const { carMiddleware, fileMiddleware } = require('../middlewares');
 
 const carRouter = Router();
 
-
-carRouter.post('/', carMiddleware.checkCarValidity, carController.createCar);
+carRouter.post('/', 
+carMiddleware.checkCarValidity, 
+fileMiddleware.checkFile, 
+fileMiddleware.checkCarFile.carPhotos, 
+fileMiddleware.checkCarFile.carDocs, 
+carController.createCar);
 
 carRouter.get('/', carController.getCars);
 

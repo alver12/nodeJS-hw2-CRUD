@@ -24,7 +24,17 @@ module.exports = {
     },
 
     JUST_ONE_PHOTO: {
-        message: 'You can uppload just one photo for avatar',
+        message: 'You can uppload just one photo for',
+        code: BAD_REQUEST
+    },
+
+    NO_MORE_THAN_10_PHOTOS: {
+        message: 'You can uppload no more than 10 photos',
+        code: BAD_REQUEST
+    },
+
+    NO_MORE_THAN_10_DOCUMENTS: {
+        message: 'You can uppload no more than 10 documents',
         code: BAD_REQUEST
     },
 

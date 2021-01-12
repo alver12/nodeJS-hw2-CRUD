@@ -14,9 +14,12 @@ module.exports = (req, res, next) => {
         const docs = [];
         const photos = [];
         
-        const allFiles = Object.values(files);
+        const allFiles = files.files;
+        
+        
 
         for (let i = 0; i < allFiles.length; i++) {
+
 
             const { mimetype, size } = allFiles[i];
 
@@ -39,7 +42,6 @@ module.exports = (req, res, next) => {
 
         req.photos = photos;
         req.docs = docs;
-
         next();
     } catch (e) {
         next(e);

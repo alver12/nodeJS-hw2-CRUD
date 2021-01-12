@@ -1,5 +1,6 @@
 const { oAuthService } = require('../services');
 const tokinizer = require('../helpers/tokinizer');
+const { AUTHORIZATION } = require('../constants/constants')
 
 module.exports = {
     login: async (req, res, next) =>{
@@ -15,5 +16,25 @@ module.exports = {
             next(e);
         }
     },
+    logout: async (req, res, next) => {
+        try {
+            const { accessToken } = req.get(AUTHORIZATION);
+            await tokenService.removeToken(accessToken);
+
+            res.json(NO_CONTENT);
+        } catch (e) {
+            next(e);
+        }
+    },
+    refreshToken: async (req, res, next) => {
+        try {
+            const { refreshToken } = req;
+            await tokenService.getRefreshToken(refreshToken);
+
+            res.json(NO_CONTENT);
+        } catch (e) {
+            next(e);
+        }
+    }
 
 };

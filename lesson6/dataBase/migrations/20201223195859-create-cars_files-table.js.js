@@ -15,10 +15,7 @@ module.exports = {
         autoIncrement: true,
         allowNull: false
       },
-      photo: {
-        type: Sequelize.DataTypes.STRING,
-      },
-      docs: {
+      car_file: {
         type: Sequelize.DataTypes.STRING,
       },
       car_id: {

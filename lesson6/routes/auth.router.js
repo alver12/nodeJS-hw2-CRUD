@@ -5,6 +5,16 @@ const { authMiddleware } = require('../middlewares');
 const authRouter = Router();
 
 
-authRouter.post('/', authMiddleware.isPasswordOk, authController.login);
+authRouter.post('/', 
+    authMiddleware.checkAuthMiddleware.checkAuthIsOk, 
+    authController.login);
+
+authRouter.post('/refresh',
+    authMiddleware.checkAuthMiddleware.checkRefershToken,
+    authController.refreshToken);
+
+authRouter.get('/logout',
+    authMiddleware.checkAuthMiddleware.checkAccessToken,
+    authController.logout);
 
 module.exports = authRouter;
